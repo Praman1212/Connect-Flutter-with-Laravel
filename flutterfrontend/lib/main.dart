@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Student studentservice = Student();
+  Student studentService = Student();
   @override
   Widget build(BuildContext context) {
    
@@ -38,23 +38,26 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         child: FutureBuilder<List>(
-          future: studentservice.getAllStudent(),
+          future: studentService.getAllStudent(),
           builder: (context, snapshot){
-            print(snapshot.data);
+            print(snapshot);
             if(snapshot.hasData){
-              return ListView.builder(itemCount: 3,itemBuilder: (context, i){
-        return Card(
-          child: ListTile(
-            title: Text(
-              'Name',
-              style: TextStyle(fontSize: 30.0),
-            ),
-            subtitle: Text(
-              'Email', style: TextStyle(fontSize: 30.0),
-            ),
-          ),
-        );
-      });
+              return ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (context, i){
+                  return Card(
+                    child: ListTile(
+                      title: Text(
+                        snapshot.data![i]['stname'],
+                        style: TextStyle(fontSize: 30.0),
+                      ),
+                      subtitle: Text(
+                        snapshot.data![i]['email'],
+                        style: TextStyle(fontSize: 30.0),
+                      ),
+                    ),
+                  );
+                });
             }else{
               return const Center(
                 child: Text('No Data Found'),
